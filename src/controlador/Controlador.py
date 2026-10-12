@@ -45,6 +45,9 @@ def ejecutar():
     ejercicio2a(df)
 
     # Ejercicio 2b: guardar df en capa bronze
-
     df_sent = ejercicio2b(df, spark)
     print(df_sent.count())
+
+    # Ejercicio 2c: ejb pero con append
+    df_sent2 = ejercicio2c(df, spark)
+    print(df_sent2.count())

@@ -15,5 +15,12 @@ def ejercicio2b(df, spark):
     df_sent = spark.read.parquet("data/lake/bronze/sentimiento")
 
     return df_sent
+
+def ejercicio2c(df, spark):
+    print("Ejercicio 2c:")
+    df.write.mode("append").parquet("data/lake/bronze/sentimiento")
+    df_sent = spark.read.parquet("data/lake/bronze/sentimiento")
+
+    return df_sent
     
     
