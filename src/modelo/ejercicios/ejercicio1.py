@@ -12,6 +12,9 @@ def ejercicio1a(spark, accion, fecha_ini, fecha_fin):
                                     interval="1d", auto_adjust = False)
 
     pdf.reset_index(inplace=True)
+
+    pdf["Ticker"] = accion
+
     df = spark.createDataFrame(pdf)
 
     return df
