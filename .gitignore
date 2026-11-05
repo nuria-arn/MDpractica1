@@ -1,0 +1,6 @@
+# Datos generados por Spark
+data/lake/
+
+# Archivos temporales de Python
+__pycache__/
+*.pyc
