@@ -1,12 +1,12 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import *
-from pyspark.sql.types import *
-from pyspark.sql.window import *
+from delta import configure_spark_with_delta_pip
 
 def crear_sesion():
+    builder = (SparkSession.builder.appName("IBEX35")
+               .master("local[*]")
+               .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
+               .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog"))
+    spark_session = configure_spark_with_delta_pip(builder).getOrCreate()
 
-    path = r"lib/mysql-connector-j-26.7.0.jar"
-
-    spark_session = (SparkSession.builder.appName("IBEX35").config("spark.driver.extraClassPath", path).getOrCreate())
     df = spark_session.read.option("header", True).option("sep", ";").option("dateFormat", "dd/MM/yyyy").csv("sentimiento_ibex.csv")
     return df, spark_session

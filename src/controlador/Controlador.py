@@ -2,6 +2,9 @@
 
 from src.modelo.ejercicios.ejercicio1 import *
 from src.modelo.ejercicios.ejercicio2 import *
+from src.modelo.ejercicios.ejercicio3 import *
+from src.modelo.ejercicios.ejercicio4 import *
+from src.modelo.ejercicios.ejercicio5 import *
 from src.modelo.conexion.SparkSession import *
 
 def ejecutar():
@@ -32,14 +35,7 @@ def ejecutar():
     '''
     # Ejercicio 1c
     print("Ejercicio 1c:")
-    df_ej_1b = spark.read.parquet("data/lake/bronze/ibex")
-
-    df_ej_1b.printSchema()
-    df_ej_1b.show(5)
-
-    df_ej_1b.select(["Ticker"]).show(40)
-    df_ej_1b.select(["Date"]).show()
-    df_ej_1b.select(["Close"]).show()
+    df_ej_1c = ejercicio1c(spark)
 
     # Ejercicio 2a
     ejercicio2a(df)
@@ -51,3 +47,13 @@ def ejecutar():
     # Ejercicio 2c: ejb pero con append
     df_sent2 = ejercicio2c(df, spark)
     print(df_sent2.count())
+
+    # Ejercicio 3: convierte carpetas parquet en delta y muestra historial
+    ejercicio3(spark)
+    print("Se ha creado una carpeta _delta_log en ambas carpetas ibex y sentimiento que contiene los metadatos de las operaciones que se han hecho sobre las tablas. ")
+
+    # Ejercicio 4: hacer merge sobre Ticker y Fecha con los precios de Ibex hasta hoy
+    '''ejercicio4(spark, empresas)'''
+    print("Al ejecutarlo por primera vez aparecían 805 filas insertadas, al ejecutarlo por segunda vez aparecen 0 filas insertadas.")
+
+    # Ejercicio 5a: columna nueva close mas5 
