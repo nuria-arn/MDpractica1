@@ -103,9 +103,3 @@ def ejecutar():
 
     # Crear tabla de hechos
     fact = crear_fact_cotizaciones(spark)
-
-    # Comprobar sentimientos nulos
-    fact.filter(col("Sentimiento").isNull()).count()
-
-    # Comprobar duplicados
-    fact.groupBy("Ticker", "Fecha").count().filter(col("count") > 1).count()
