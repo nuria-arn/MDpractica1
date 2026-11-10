@@ -5,11 +5,19 @@ from src.modelo.ejercicios.ejercicio2 import *
 from src.modelo.ejercicios.ejercicio3 import *
 from src.modelo.ejercicios.ejercicio4 import *
 from src.modelo.ejercicios.ejercicio5 import *
+from src.modelo.ejercicios.ejercicio6 import *
+from src.modelo.ejercicios.ejercicio8 import *
 from src.modelo.conexion.SparkSession import *
+
+from delta.tables import DeltaTable
 
 def ejecutar():
 
     df, spark = crear_sesion()
+    df = spark.read.format("delta").load("data/lake/bronze/ibex")
+
+    print("Número de filas:", df.count())
+    df.printSchema()
 
     # Ejercicio 1b
     # Descargar ultimos dos años de todas las empresas de ibex
@@ -36,7 +44,7 @@ def ejecutar():
     # Ejercicio 1c
     print("Ejercicio 1c:")
     df_ej_1c = ejercicio1c(spark)
-
+    '''
     # Ejercicio 2a
     ejercicio2a(df)
 
@@ -46,14 +54,32 @@ def ejecutar():
 
     # Ejercicio 2c: ejb pero con append
     df_sent2 = ejercicio2c(df, spark)
-    print(df_sent2.count())
+    print(df_sent2.count())'''
 
     # Ejercicio 3: convierte carpetas parquet en delta y muestra historial
-    ejercicio3(spark)
+    '''ejercicio3(spark)'''
     print("Se ha creado una carpeta _delta_log en ambas carpetas ibex y sentimiento que contiene los metadatos de las operaciones que se han hecho sobre las tablas. ")
 
     # Ejercicio 4: hacer merge sobre Ticker y Fecha con los precios de Ibex hasta hoy
     '''ejercicio4(spark, empresas)'''
     print("Al ejecutarlo por primera vez aparecían 805 filas insertadas, al ejecutarlo por segunda vez aparecen 0 filas insertadas.")
 
-    # Ejercicio 5a: columna nueva close mas5 
+    # Ejercicio 5a: columna nueva close mas5 con append
+    '''ejercicio5a(spark)'''
+
+    # Ejercicio 5b: mismo que el 5a pero añadiendo mergeSchema
+    '''ejercicio5b(spark)'''
+    print("Ya no salta error añadiendo mergeSchema")
+
+    # Ejercicio 5c: eliminar las filas del ticker BBVA
+    '''ejercicio5c(spark)'''
+
+    # Ejercicio 5d: muestra history() y la version de antes de 5a
+    '''ejercicio5d(spark)'''
+
+    # Ejercicio 6: Deja la tabla realmente como estaba en el EJ4
+    '''ejercicio6(spark)'''
+    print("Hasta aqui el ejerciccio 6")
+
+    # Ejercicio 8: construir la capa silver
+    ejercicio8(spark)
