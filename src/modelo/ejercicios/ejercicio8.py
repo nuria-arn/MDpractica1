@@ -1,6 +1,7 @@
 from pyspark.sql.functions import *
 
 def ejercicio8(spark):
+    print("Ejercicio 8: ")
     df_bronze = spark.read.format("delta").load("data/lake/bronze/sentimiento")
 
     print('Filas Bronze: ', df_bronze.count())

@@ -7,6 +7,9 @@ from src.modelo.ejercicios.ejercicio4 import *
 from src.modelo.ejercicios.ejercicio5 import *
 from src.modelo.ejercicios.ejercicio6 import *
 from src.modelo.ejercicios.ejercicio8 import *
+from src.modelo.ejercicios.ejercicio9 import *
+from src.modelo.ejercicios.ejercicio10 import *
+from src.modelo.ejercicios.funciones10 import *
 from src.modelo.conexion.SparkSession import *
 
 from delta.tables import DeltaTable
@@ -83,3 +86,26 @@ def ejecutar():
 
     # Ejercicio 8: construir la capa silver
     ejercicio8(spark)
+
+    # Ejercicio 9: 
+    ejercicio9(spark)
+
+    # Ejercicio 10: integrar las fuentes y guardar en gold
+    # Dimensión empresa: obtener información de Yahoo Finance
+    datos_empresas = obtener_info_empresas(empresas)
+
+    # Guardar información original en Bronze
+    df_dim_empresa = guardar_dim_empresa_bronze(spark, datos_empresas)
+    df_dim_empresa_silver = limpiar_dim_empresa(spark)
+
+    # Crear dimensión fecha
+    dim_fecha = crear_dim_fecha(spark)
+
+    # Crear tabla de hechos
+    fact = crear_fact_cotizaciones(spark)
+
+    # Comprobar sentimientos nulos
+    fact.filter(col("Sentimiento").isNull()).count()
+
+    # Comprobar duplicados
+    fact.groupBy("Ticker", "Fecha").count().filter(col("count") > 1).count()
